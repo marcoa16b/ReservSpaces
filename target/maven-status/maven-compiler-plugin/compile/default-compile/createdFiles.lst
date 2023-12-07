@@ -1,0 +1,11 @@
+Entities\Reserva_.class
+persistance\PersistanceController.class
+persistance\ReservaJpaController.class
+dev\reservaespacios\Controller.class
+dev\Servlets\SVReservas.class
+dev\reservaespacios\JakartaRestConfiguration.class
+Entities\Reserva.class
+persistance\exceptions\IllegalOrphanException.class
+persistance\exceptions\PreexistingEntityException.class
+persistance\exceptions\NonexistentEntityException.class
+dev\reservaespacios\resources\JakartaEE10Resource.class
