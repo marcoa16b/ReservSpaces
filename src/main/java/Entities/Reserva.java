@@ -2,10 +2,10 @@
 package Entities;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 /**
  *
@@ -18,14 +18,18 @@ public class Reserva implements Serializable {
     @Id
     @GeneratedValue (strategy=GenerationType.AUTO)
     private int id;
+    private String usuario;
+    private String sala;
     private String fecha;
-    private String hora_inicio;
-    // private String usuario;
 
-    public Reserva(int id, String fecha, String hora)  {
+    public Reserva() {
+    }
+    
+    public Reserva(int id, String usuario, String sala, String fecha)  {
         this.id = id;
+        this.usuario = usuario;
+        this.sala = sala;
         this.fecha = fecha;
-        this.hora_inicio = hora;
     }
     
     public int getId() {
@@ -36,27 +40,27 @@ public class Reserva implements Serializable {
         this.id = id;
     }
     
+    public String getUsuario() {
+        return this.usuario;
+    }
+    
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+    
+    public String getSala() {
+        return this.sala;
+    }
+    
+    public void setSala(String sala) {
+        this.sala = sala;
+    }
+    
     public String getFecha() {
         return this.fecha;
     }
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-
-    public String getHora_inicio() {
-        return this.hora_inicio;
-    }
-
-    public void setHora_inicio(String hora_inicio) {
-        this.hora_inicio = hora_inicio;
-    }
-
-//    public String getUsuario() {
-//        return usuario;
-//    }
-//
-//    public void setUsuario(String usuario) {
-//        this.usuario = usuario;
-//    }    
+    } 
 }

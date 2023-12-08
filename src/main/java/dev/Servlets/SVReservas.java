@@ -4,20 +4,28 @@
  */
 package dev.Servlets;
 
+import Entities.Reserva;
+import dev.Controladora;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author 50684
+ * @author 
  */
 @WebServlet(name = "SVReservas", urlPatterns = {"/SVReservas"})
 public class SVReservas extends HttpServlet {
+    
+    Controladora control = new Controladora();
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -31,6 +39,17 @@ public class SVReservas extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // processRequest(request, response);
+        
+        List<Reserva> listaReservas = new ArrayList<>();
+        
+        listaReservas = control.obtenerReservas();
+        
+        System.out.println("Lista de reservas: " + listaReservas);
+        
+        HttpSession miSession = request.getSession();
+        miSession.setAttribute("listaReservas", listaReservas);
+        
+        response.sendRedirect("Reservas.jsp");
     }
 
     /**
@@ -45,14 +64,20 @@ public class SVReservas extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String sala = request.getParameter("id_sala");
-        String fecha = request.getParameter("datetime");
-        //String hora = request.getParameter("hora_inicio");
+        String usuario = request.getParameter("input_name");
+        String sala = request.getParameter("input_hall");
+        String fechaInput = request.getParameter("input_date"); 
         
-        System.out.println("Sala: " + sala);
-        System.out.println("Fecha: " + fecha);
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(fechaInput, inputFormatter);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = localDateTime.format(outputFormatter);
         
-        response.sendRedirect("index.jsp");
+        // TODO: AGREGAR A LA BASE DE DATOS
+        control.crearReserva(usuario, sala, formattedDateTime);
+        
+        response.sendRedirect("SVListaReservas");
+        
         
     }
 
