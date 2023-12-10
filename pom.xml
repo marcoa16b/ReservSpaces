@@ -5,7 +5,7 @@
     <artifactId>ReservaEspacios</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
-    <name>ReservaEspacios-1.0</name>
+    <name>ReservaEspacios-1.0-test</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
