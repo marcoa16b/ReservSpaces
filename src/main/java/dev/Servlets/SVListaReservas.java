@@ -5,6 +5,7 @@
 package dev.Servlets;
 
 import Entities.Reserva;
+import Entities.Reservacion;
 import dev.Controladora;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,9 +38,9 @@ public class SVListaReservas extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Reserva> listaReservas = new ArrayList<>();
+        List<Reservacion> listaReservas = new ArrayList<>();
         
-        listaReservas = control.obtenerReservas();
+        listaReservas = control.obtenerReservaciones();
         
         System.out.println("Lista de reservas: " + listaReservas);
         

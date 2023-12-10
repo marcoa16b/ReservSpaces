@@ -1,4 +1,5 @@
-
+<%@page import="java.util.List"%>
+<%@page import="Entities.Espacio"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,42 +13,37 @@
         <div class="mt-20 flex flex-col items-center gap-5">
             <h1 class="text-4xl font-bold text-center">Reserva tu espacio</h1>
             <p class="text-xl max-w-[500px] text-center">Selecciona una opción para reservar tu espacio en la sala que desees</p>
+            
+            <div class="my-5">
+                <a href="SVSupport" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none" >Agregar Espacios de prueba</a>
+            </div>
 
             <div class="w-full grid place-items-center">
                 <form action="SVReservas" method="POST" class="flex flex-col gap-5 my-5 w-full max-w-[70%] p-5 bg-gray-100 rounded-xl" id="myForm">
 
                     <div>
-                        <label for="user_name" class="block mb-2 text-sm font-medium text-gray-900">
-                            Escribe tu nombre:
-                        </label>
-                        <input type="text" name="input_name" id="input_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John Doe" required>
-                    </div>
-
-                    <div>
                         <label for="salas" class="block mb-2 text-sm font-medium text-gray-900">Selecciona una sala:</label>
 
-                        <select id="input_hall" name="input_hall" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onchange="updateRange()">
-                            <option selected>Selecciona una opción</option>
-                            <option value="Conf1">Sala de conferencias 1</option>
-                            <option value="Conf2">Sala de conferencias 2</option>
-                            <option value="Reu">Sala de reuniones</option>
-                            <option value="Work1">Espacio de trabajo 1</option>
-                            <option value="Work2">Espacio de trabajo 1</option>
-                            <option value="office">Oficina compartida</option>
+                        <select id="input_hall" name="input_space" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onchange="updateRange()">
+                            <option selected>Selecciona un espacio a reservar</option>
+                            
+                            <% 
+                                List<Espacio> list = (List) request.getSession().getAttribute("listaEspacios");
+                                for (Espacio esp : list) {
+                            %>
+                                    <option value="<%=esp.getId()%>"><%=esp.getNombre()%> - <%=esp.getUbicacion()%> - <%=esp.getCapacidad()%></option>
+                            <%} %>
                         </select>
                     </div>
 
-                    <!--<div>
-                        <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900">
-                            Elige tu asiento
-                        </label>
-                        <input type="number" name="input_seat" id="input_seat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="1" min="1" max="5" required>
-                        <span id="error-msg" class="text-red-500 text-sm hidden">El valor está fuera de rango</span>
-                    </div> -->
-            
                     <div>
-                        <label for="input_date" class="block mb-2 text-sm font-medium text-gray-900">Elige la fecha y hora:</label>
-                        <input type="datetime-local" name="input_date" id="input_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                        <label for="input_date" class="block mb-2 text-sm font-medium text-gray-900">Elige la fecha y hora de Inicio (Los minutos y segundos seran siempre 0):</label>
+                        <input type="datetime-local" name="input_date_start" id="input_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                    </div>
+                        
+                    <div>
+                        <label for="input_date" class="block mb-2 text-sm font-medium text-gray-900">Elige la fecha y hora de finalización (Los minutos y segundos seran siempre 0):</label>
+                        <input type="datetime-local" name="input_date_stop" id="input_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                     </div>
             
                     <div class="flex flex-col items-center">

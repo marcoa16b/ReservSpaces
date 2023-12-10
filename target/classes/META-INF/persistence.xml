@@ -3,6 +3,8 @@
   <persistence-unit name="ReservaEspaciosPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Entities.Reserva</class>
+    <class>Entities.Espacio</class>
+    <class>Entities.Reservacion</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/reserves?serverTimezone=UTC"/>

@@ -1,5 +1,6 @@
 <%@page import="java.util.List"%>
-<%@page import="Entities.Reserva"%> 
+<%@page import="Entities.Reservacion"%> 
+<%@page import="java.text.SimpleDateFormat"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,21 +20,25 @@
                     ID
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    Usuario
+                    Espacio
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    Sala
+                    Inicio
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    Fecha
+                    Fin
                   </th>
                 </tr>
               </thead>
               <tbody>
                   <% 
-                    List<Reserva> list = (List) request.getSession().getAttribute("listaReservas");
+                    List<Reservacion> list = (List) request.getSession().getAttribute("listaReservas");
                     int cont = 1;
-                    for (Reserva resv : list) {
+                    SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                    for (Reservacion resv : list) {
+                        String resvNombre = resv.getEspacio().getNombre();
+                        String resvFechaInicio = formato.format(resv.getFechaInicio());
+                        String resvFechaFin = formato.format(resv.getFechaFin());
                   %>
                   
                         <tr class="bg-white border-b">
@@ -41,13 +46,13 @@
                                 <%=resv.getId()%>
                             </th>
                             <td class="px-6 py-4">
-                                <%=resv.getUsuario()%>
+                                <%=resvNombre%>
                             </td>
                             <td class="px-6 py-4">
-                                <%=resv.getSala()%>
+                                <%=resvFechaInicio%>
                             </td>
                             <td class="px-6 py-4">
-                                <%=resv.getFecha()%>
+                                <%=resvFechaFin%>
                             </td>
                         </tr>
 

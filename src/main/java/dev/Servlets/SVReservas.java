@@ -4,6 +4,7 @@
  */
 package dev.Servlets;
 
+import Entities.Espacio;
 import Entities.Reserva;
 import dev.Controladora;
 import java.io.IOException;
@@ -13,9 +14,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,16 +45,16 @@ public class SVReservas extends HttpServlet {
             throws ServletException, IOException {
         // processRequest(request, response);
         
-        List<Reserva> listaReservas = new ArrayList<>();
+        List<Espacio> listaEspacios = new ArrayList<>();
         
-        listaReservas = control.obtenerReservas();
+        listaEspacios = control.obtenerEspacios();
         
-        System.out.println("Lista de reservas: " + listaReservas);
+        System.out.println("Lista de espacios: " + listaEspacios);
         
         HttpSession miSession = request.getSession();
-        miSession.setAttribute("listaReservas", listaReservas);
+        miSession.setAttribute("listaEspacios", listaEspacios);
         
-        response.sendRedirect("Reservas.jsp");
+        response.sendRedirect("Reservar.jsp");
     }
 
     /**
@@ -64,17 +69,60 @@ public class SVReservas extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String usuario = request.getParameter("input_name");
-        String sala = request.getParameter("input_hall");
-        String fechaInput = request.getParameter("input_date"); 
+        // Obtener los datos
+        String idSpaceStr = request.getParameter("input_space");
+        int idSpace = Integer.parseInt(idSpaceStr);
+        String fechaInicio = request.getParameter("input_date_start");
+        String fechaFin = request.getParameter("input_date_stop"); 
         
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(fechaInput, inputFormatter);
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formattedDateTime = localDateTime.format(outputFormatter);
+        // Crear el formateador para las fechas
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
+        
+        // Obtener la lista de espacios
+        List<Espacio> listaEspacios = new ArrayList<>();
+        listaEspacios = control.obtenerEspacios();
+        
+        try {
+            // Formatear las fechas
+            Date fechaHoraInicio = formatter.parse(fechaInicio);
+            Date fechaHoraFin = formatter.parse(fechaFin);
+            
+            // Setear los minutos y segundos en 0
+            Calendar calendarioInicio = Calendar.getInstance();
+            Calendar calendarioFin = Calendar.getInstance();
+            
+            calendarioInicio.setTime(fechaHoraInicio);
+            calendarioFin.setTime(fechaHoraFin);
+            
+            calendarioInicio.set(Calendar.MINUTE, 0);
+            calendarioInicio.set(Calendar.SECOND, 0);
+            
+            calendarioFin.set(Calendar.MINUTE, 0);
+            calendarioFin.set(Calendar.SECOND, 0);
+            
+            Date fechaInicioFinal = calendarioInicio.getTime();
+            Date fechaFinFinal = calendarioFin.getTime();
+            
+            // Obtener el espacio
+            Espacio espacio = null;
+            
+            for (Espacio esp : listaEspacios) {
+                if (esp.getId() == idSpace) {
+                    espacio = esp;
+                    break;
+                }
+            }
+            
+            if (espacio != null) {
+                control.crearReserva(espacio, fechaInicioFinal, fechaFinFinal);
+            }
+            
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         
         // TODO: AGREGAR A LA BASE DE DATOS
-        control.crearReserva(usuario, sala, formattedDateTime);
+        //control.crearReserva(usuario, sala, formattedDateTime);
         
         response.sendRedirect("SVListaReservas");
         

@@ -18,7 +18,7 @@
             <p class="opacity-75 text-lg">Ingrese para realizar su reservación o vea la lista de reservas.</p>
             <div class="mt-10 flex flex-col gap-8">
               <div>
-                <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none" href="Reservar.jsp">Ingresar</a>
+                <a href="SVReservas" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none" >Ingresar</a>
               </div>
               <div>
                 <a href="SVListaReservas" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Ver reservas</a>
